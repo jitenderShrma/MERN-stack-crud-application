@@ -1,0 +1,10 @@
+export const  GET_USER = 'GET_USER';
+export const  SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const  GET_ERRORS = 'GET_ERRORS';
+export const  CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const  GET_MERCHANT = 'GET_MERCHANT';
+export const  GET_MERCHANTS = 'GET_MERCHANTS';
+export const  MERCHANT_LOADING = 'MERCHANT_LOADING';
+export const  DELETE_MERCHANT = 'DELETE_MERCHANT';
+export const  ADD_MERCHANT = 'ADD_MERCHANT';
+export const  UPDATE_MERCHANT = 'UPDATE_MERCHANT';
