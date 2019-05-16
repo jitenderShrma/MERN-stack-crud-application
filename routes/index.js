@@ -43,6 +43,7 @@ router.post('/', (req, res) => {
   } else {
     // save into db
     const newMerchant = {
+      serial_number: Merchant.find().count() + 1,
       name: req.body.name,
       isActivated: req.body.isActivated,
       description: req.body.description
@@ -79,22 +80,35 @@ router.post('/update/', (req, res) => {
 // @route get '/merchant/by-status'
 // @desc to post all merchant by status
 router.post('/by-status', (req, res) => {
-  Merchant.find({ isActivated: req.body.status })
-    .sort('-created_date')
-    .then(data => {
-      if (data.length === 0) {
-        return res.status(200).json({ nomerchantfound: 'No merchant found' })
-      } else {
-        return res.status(200).json(data);
-      }
-    })
-    .catch(error => console.log(error));
+  if (req.body.status) {
+    Merchant.find({ isActivated: req.body.status })
+      .sort('-created_date')
+      .then(data => {
+        if (data.length === 0) {
+          return res.status(200).json({ nomerchantfound: 'No merchant found' })
+        } else {
+          return res.status(200).json(data);
+        }
+      })
+      .catch(error => console.log(error));
+  } else {
+    Merchant.find()
+      .sort('-created_date')
+      .then(data => {
+        if (data.length === 0) {
+          return res.status(200).json({ nomerchantfound: 'No merchant found' })
+        } else {
+          return res.status(200).json(data);
+        }
+      })
+      .catch(error => console.log(error));
+  }
 });
 
 // @route get '/merchant/by-name'
 // @desc to post all merchant by name
 router.post('/by-name', (req, res) => {
-  Merchant.find({"name" : {$regex : `.*${req.body.name.toLowerCase()}.*`}})
+  Merchant.find({ "name": { $regex: `.*${req.body.name.toLowerCase()}.*` } })
     .sort('-created_date')
     .then(data => {
       if (data.length === 0) {

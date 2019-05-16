@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const MerchantSchema = new Schema({
+  seial_number: {
+    type: Number
+  },
   name:{
     type:String,
     lowercase: true,

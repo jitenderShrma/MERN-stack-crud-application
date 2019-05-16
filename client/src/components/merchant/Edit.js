@@ -20,7 +20,7 @@ class Edit extends Component {
     const { merchant_id } = this.props.match.params;
     this.props.getMerchantById(merchant_id);
   }
-  componentDidUpdate(){
+  componentDidUpdate() {
     // M.updateTextFields();
   }
   componentWillReceiveProps(nextProps) {
@@ -34,13 +34,13 @@ class Edit extends Component {
     }
   }
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    if (e.target.name === 'isActivated') {
+      this.setState({ [e.target.name]: e.target.checked });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
-  onCheckboxClick = () => {
-    this.setState(
-      preState => ({ isActivated: !preState.isActivated })
-    )
-  }
+
   onSubmit = () => {
     const mearchantData = {
       merchant_id: this.props.match.params.merchant_id,
@@ -53,14 +53,14 @@ class Edit extends Component {
   render() {
     let content;
     const { merchant, loading } = this.props.merchant;
-    const { name, isActivated} = this.state;
+    const { name, isActivated } = this.state;
     if (Object.keys(merchant).length === 0 || loading) {
       content = <Spinner />
     } else {
       content = (
         <div className="row">
           <div className="col col-md-12 m-auto">
-            <div class="form-group my-4">
+            <div className="form-group my-4">
               <label htmlFor="name">Name</label>
               <input
                 type="text"
@@ -72,19 +72,19 @@ class Edit extends Component {
                 disabled
               />
             </div>
-            <div class="form-check my-4">
+            <div className="form-check my-4">
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="is_activated"
-                name='is_activated'
-                onClick={this.onCheckboxClick}
-                defaultChecked={isActivated}
+                name='isActivated'
+                checked={isActivated}
+                onClick={this.onChange}
               />
               <label className="form-check-label" htmlFor="is_activated">Is Activated</label>
             </div>
             <div className="input-field" style={{ paddingLeft: '0' }}>
-              <label for="desc">Description</label>
+              <label htmlFor="desc">Description</label>
               <CKEditor
                 id="desc"
                 editor={ClassicEditor}
@@ -92,7 +92,7 @@ class Edit extends Component {
                 onChange={(event, editor) => {
                   const data = editor.getData();
                   let s_i = data.indexOf('<p>')
-                  + 3;
+                    + 3;
                   this.setState({ description: data.substring(s_i, data.indexOf('</p>')) })
                 }}
               />

@@ -9,7 +9,7 @@ class Search extends Component {
       this.name_field.value = '';
       this.props.getMerchantByStatus(e.target.checked);
     }
-    if (e.target.name === 'name' && e.target.value) {
+    if (e.target.name === 'name') {
       this.checkbox_field.checked = false;
       this.props.getMerchantByName(e.target.value);
     }

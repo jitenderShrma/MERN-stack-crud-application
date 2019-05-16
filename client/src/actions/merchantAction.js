@@ -74,6 +74,7 @@ export const deleteMerchant = (merchant_id) => dispatch => {
 
 // Update merchant
 export const updateMerchant = (merchant_data, history) => dispatch => {
+  console.log(merchant_data);
   axios.post(`/merchant/update`, merchant_data)
     .then(() => history.push('/'));
 }

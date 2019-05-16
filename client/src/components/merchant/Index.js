@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Spinner from '../common/Spinner';
 import Search from './Search';
+import AddMerchant from './Add';
 import { getMerchants, deleteMerchant, addMerchant } from '../../actions/merchantAction';
 class Index extends Component {
   constructor() {
@@ -14,7 +13,7 @@ class Index extends Component {
       name: null,
       description: '',
       isActivated: false,
-      perPage: 4,
+      perPage: 10,
       currentPage: 1,
       currentMerchants: []
     }
@@ -25,13 +24,18 @@ class Index extends Component {
   onDelete = (merchant_id) => {
     this.props.deleteMerchant(merchant_id);
   }
-  onCheckboxClick = () => {
-    this.setState(
-      preState => ({ isActivated: !preState.isActivated })
-    )
+  onDescChange = (data) => {
+    this.setState({ description: data })
+    // this.setState(
+    //   preState => ({ isActivated: !preState.isActivated })
+    // )
   }
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange = (e, data) => {
+    if (e.target.name === 'isActivated') {
+      this.setState({ [e.target.name]: e.target.checked });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
   onSubmit = () => {
     const newMerchant = {
@@ -62,7 +66,7 @@ class Index extends Component {
     if (merchants.length === 0 || loading) {
       content = <Spinner />
     } else {
-      if (merchants.length === 0) {
+      if (merchants.nomerchantfound) {
         content = <h5>No Merchants found</h5>
       } else {
         // Logic for get current merchant
@@ -96,7 +100,9 @@ class Index extends Component {
                     {
                       currentMerchants.map((each, index) => (
                         <tr key={index}>
-                          <th scope="row" >{index + 1}</th>
+                          <th scope="row" >{
+                            index + 1
+                          }</th>
                           <td>{each.name}</td>
                           <td>{each.description.substring(0, 20)} ....</td>
                           <td><Link to={`/merchant/edit/${each._id}`} className="ml-3"><i className="fas fa-edit blue-text"></i></Link></td>
@@ -110,65 +116,7 @@ class Index extends Component {
                     }
                   </tbody>
                 </table>
-                {/* Modal */}
-                <button className="bg-primary fixed-button wobble" type="button" data-toggle="modal" data-target="#add-merchant-modal" >
-                  <i className="fas fa-plus"></i>
-                </button>
-                <div className="modal fade" id="add-merchant-modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Add Merchant</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                        <div className="form-group">
-                          <label htmlFor="name">Name</label>
-                          <input
-                            type="text"
-                            className={classnames('form-control', { 'is-invalid': errors.name })}
-                            id="name"
-                            placeholder="Enter Name"
-                            name="name"
-                            onChange={this.onChange}
-                            value={name}
-                          />
-                          <div className="invalid-feedback">{errors.name}</div>
-                        </div>
-                        <div className="form-group form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="isActivated"
-                            name="isActivated"
-                            defaultChecked={isActivated}
-                            onChange={this.onCheckboxClick}
-                          />
-                          <label className="form-check-label" htmlFor="isActivated">Is Activate</label>
-                        </div>
-                        <div className="input-field" style={{ paddingLeft: '0' }}>
-                          <label htmlFor="desc">Description</label>
-                          <CKEditor
-                            id="desc"
-                            editor={ClassicEditor}
-                            onChange={(event, editor) => {
-                              const data = editor.getData();
-                              let s_i = data.indexOf('<p>')
-                                + 3;
-                              this.setState({ description: data.substring(s_i, data.indexOf('</p>')) })
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" onClick={this.onSubmit} className="btn btn-primary">Save Merchant</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
                 {/* Pagination */}
                 <nav aria-label="Page navigation example">
                   <ul className="pagination">
@@ -219,6 +167,13 @@ class Index extends Component {
     return (
       <div className="container">
         {content}
+        <AddMerchant
+          onChange={this.onChange}
+          onSubmit={this.onSubmit}
+          onDescChange={this.onDescChange}
+          name={name}
+          isActivated={isActivated}
+          errors={errors} />
       </div>
     )
   }
