@@ -88,7 +88,7 @@ class Index extends Component {
                 <h6 className="text-center">Total Merchants: {merchants.length}</h6>
                 {/* <br></br> */}
                 <Search />
-                <div className="table-reosponsive">
+                <div>
                   <table className="table mb-2">
                     <thead>
                       <tr>
@@ -104,13 +104,13 @@ class Index extends Component {
                         currentMerchants.map((each, index) => (
                           <tr key={index}>
                             <th scope="row" >{
-                              (currentPage === 1 ? 0 * perPage : currentPage * perPage) + index + 1
+                              (currentPage - 1) * perPage + index + 1
                             }</th>
                             <td>{each.name}</td>
                             <td>{each.description.substring(0, 20)} ....</td>
-                            <td><Link to={`/merchant/edit/${each._id}`} className="ml-3"><i className="fas fa-edit blue-text"></i></Link></td>
+                            <td><Link to={`/merchant/edit/${each._id}`} className="m-auto"><i className="fas fa-edit blue-text"></i></Link></td>
                             <td>
-                              <a href="#!" onClick={this.onDelete.bind(this, each._id)} className="ml-3">
+                              <a href="#!" onClick={this.onDelete.bind(this, each._id)}>
                                 <i className="fas fa-trash-alt text-danger"></i>
                               </a>
                             </td>
