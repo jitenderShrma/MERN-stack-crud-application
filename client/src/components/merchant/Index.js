@@ -85,82 +85,84 @@ class Index extends Component {
             <hr></hr>
             <div className="row">
               <div className="col col-sm-12">
-                <h6 className="text-center">Total Merchants: { merchants.length }</h6>
+                <h6 className="text-center">Total Merchants: {merchants.length}</h6>
                 {/* <br></br> */}
                 <Search />
-              <table className="table mb-2">
-                <thead>
-                  <tr>
-                    <th scope="col">Serial No.</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    currentMerchants.map((each, index) => (
-                      <tr key={index}>
-                        <th scope="row" >{
-                          (currentPage === 1 ? 0 * perPage : currentPage * perPage) + index + 1
-                        }</th>
-                        <td>{each.name}</td>
-                        <td>{each.description.substring(0, 20)} ....</td>
-                        <td><Link to={`/merchant/edit/${each._id}`} className="ml-3"><i className="fas fa-edit blue-text"></i></Link></td>
-                        <td>
-                          <a href="#!" onClick={this.onDelete.bind(this, each._id)} className="ml-3">
-                            <i className="fas fa-trash-alt text-danger"></i>
-                          </a>
-                        </td>
+                <div className="table-reosponsive">
+                  <table className="table mb-2">
+                    <thead>
+                      <tr>
+                        <th scope="col">Serial No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
                       </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-              {/* Pagination */}
-              <nav aria-label="Page navigation example">
-                <ul className="pagination">
-                  <li className={classnames('page-item', { 'disabled': currentPage === 1 })}>
-                    <a
-                      className="page-link"
-                      href="#!"
-                      aria-label="Previous"
-                      onClick={this.onPreNext.bind(this, 'pre')}
-                    >
-                      <span aria-hidden="true">&laquo;</span>
-                      <span className="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  {
-                    pageNumbers.map((number, i) => (
-                      <li
-                        className={classnames('page-item', { 'active': currentPage === number })}
-                        key={number}
-                        id={number}
-                        onClick={this.onPagClick.bind(this, number)}
+                    </thead>
+                    <tbody>
+                      {
+                        currentMerchants.map((each, index) => (
+                          <tr key={index}>
+                            <th scope="row" >{
+                              (currentPage === 1 ? 0 * perPage : currentPage * perPage) + index + 1
+                            }</th>
+                            <td>{each.name}</td>
+                            <td>{each.description.substring(0, 20)} ....</td>
+                            <td><Link to={`/merchant/edit/${each._id}`} className="ml-3"><i className="fas fa-edit blue-text"></i></Link></td>
+                            <td>
+                              <a href="#!" onClick={this.onDelete.bind(this, each._id)} className="ml-3">
+                                <i className="fas fa-trash-alt text-danger"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                {/* Pagination */}
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination">
+                    <li className={classnames('page-item', { 'disabled': currentPage === 1 })}>
+                      <a
+                        className="page-link"
+                        href="#!"
+                        aria-label="Previous"
+                        onClick={this.onPreNext.bind(this, 'pre')}
                       >
-                        <a className="page-link" href="#!" >
-                          {number}
-                        </a>
-                      </li>
-                    ))
-                  }
-                  <li className={classnames('page-item', { 'disabled': currentPage === pageNumbers[pageNumbers.length - 1] })}>
-                    <a
-                      className="page-link"
-                      href="#!"
-                      aria-label="Next"
-                      onClick={this.onPreNext.bind(this, 'next')}
-                    >
-                      <span aria-hidden="true">&raquo;</span>
-                      <span className="sr-only">Next</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+                        <span aria-hidden="true">&laquo;</span>
+                        <span className="sr-only">Previous</span>
+                      </a>
+                    </li>
+                    {
+                      pageNumbers.map((number, i) => (
+                        <li
+                          className={classnames('page-item', { 'active': currentPage === number })}
+                          key={number}
+                          id={number}
+                          onClick={this.onPagClick.bind(this, number)}
+                        >
+                          <a className="page-link" href="#!" >
+                            {number}
+                          </a>
+                        </li>
+                      ))
+                    }
+                    <li className={classnames('page-item', { 'disabled': currentPage === pageNumbers[pageNumbers.length - 1] })}>
+                      <a
+                        className="page-link"
+                        href="#!"
+                        aria-label="Next"
+                        onClick={this.onPreNext.bind(this, 'next')}
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                        <span className="sr-only">Next</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
-          </div>
           </div >
         )
       }

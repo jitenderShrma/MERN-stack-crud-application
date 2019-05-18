@@ -65,3 +65,9 @@
 .small-font {
   font-size: 14px;
 }
+/* .table-reosponsive {
+  display: table;
+} */
+.table {
+  display: block !important;
+}
