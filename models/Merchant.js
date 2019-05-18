@@ -21,11 +21,11 @@ const MerchantSchema = new Schema({
     type: Date,
     default: Date.now()
   },
-  modified_date: {
-    type: Date
-  }
+  changes_history: [{
+    type:Date
+  }]
 });
 
-const Merchant = mongoose.model('Merchant',MerchantSchema);
+const Merchant = mongoose.model('Merchant_db',MerchantSchema);
 
 module.exports = Merchant;

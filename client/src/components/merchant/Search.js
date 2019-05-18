@@ -17,7 +17,7 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <h5>Search By</h5>
+        <p style={{padding: '0', marginBottom:'4px'}}>Search By</p>
         <form>
           <div className="form-row align-items-center mb-2">
             <div className="col col-md-4">

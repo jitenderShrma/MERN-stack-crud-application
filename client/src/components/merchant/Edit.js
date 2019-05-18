@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import conveter from 'number-to-words';
 import Moment from 'react-moment';
 import { updateMerchant, getMerchantById } from '../../actions/merchantAction';
 import Spinner from '../common/Spinner';
@@ -50,6 +51,19 @@ class Edit extends Component {
     }
     this.props.updateMerchant(mearchantData, this.props.history);
   }
+  turnChangeIntoArr = (changes) => {
+    const trunIntoArr = [];
+
+    changes.sort((a, b) => a - b).forEach((date, index) => {
+      const d = new Date(date);
+      if (index + 1 === changes.length) {
+        trunIntoArr.push(`last change maked on ${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`);
+      } else {
+        trunIntoArr.push(`${conveter.toWordsOrdinal(index + 1)} change maked on ${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`);
+      }
+    });
+    return trunIntoArr.reverse();
+  }
   render() {
     let content;
     const { merchant, loading } = this.props.merchant;
@@ -57,9 +71,10 @@ class Edit extends Component {
     if (Object.keys(merchant).length === 0 || loading) {
       content = <Spinner />
     } else {
+      const changesArray = this.turnChangeIntoArr(merchant.changes_history)
       content = (
         <div className="row">
-          <div className="col col-md-12 m-auto">
+          <div className="col col-md-12 col-sm-12 m-auto">
             <div className="form-group my-4">
               <label htmlFor="name">Name</label>
               <input
@@ -89,6 +104,9 @@ class Edit extends Component {
                 id="desc"
                 editor={ClassicEditor}
                 data={merchant.description}
+                config={
+                  { toolbar: [[]] }
+                }
                 onChange={(event, editor) => {
                   const data = editor.getData();
                   let s_i = data.indexOf('<p>')
@@ -101,11 +119,24 @@ class Edit extends Component {
               Created at {
                 <Moment format='DD/MM/YYYY'>{merchant.created_date}</Moment>
               }
-              {
-                merchant.modified_date ? (<span>{' | '} Modified at <Moment format='DD/MM/YYYY'>{merchant.modified_date}</Moment></span>) : null
-              }
             </div>
             <button type="submit" onClick={this.onSubmit} className="btn btn-primary my-2">RE SAVE</button>
+            <br></br>
+            <hr></hr>
+            <p className="font-weight-bold">Previous changes </p>
+            <ul className="list-group">
+              {
+                changesArray.length === 0 ?
+                  <p>Not found.</p> :
+                  (
+                    changesArray.map(each =>
+                      <li className="list-group-item font-weight-normal small-font">
+                      {each.charAt(0).toUpperCase() + each.slice(1)}
+                      </li>
+                    )
+                  )
+              }
+            </ul>
           </div>
         </div>
       );

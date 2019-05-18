@@ -63,14 +63,22 @@ router.delete('/:merchant_id', (req, res) => {
 });
 
 // @route post '/merchant/update/status/:merchant_id'
-// @desc to update status
+// @desc to make update 
 router.post('/update/', (req, res) => {
   Merchant.findById(req.body.merchant_id)
     .then(merchant => {
-      merchant.description = req.body.description;
+
+      if (
+        (merchant.description !== req.body.description) ||
+        (merchant.isActivated !== req.body.isActivated)
+      ) {
+        merchant.changes_history.push(new Date());
+
+      }
       merchant.isActivated = req.body.isActivated;
-      merchant.modified_date = Date.now();
-      // save to db
+      merchant.description = req.body.description;
+
+      //save to db
       Merchant(merchant).save()
         .then(() => res.status(200).json({ success: true }));
     })

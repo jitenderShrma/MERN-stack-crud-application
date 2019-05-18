@@ -1,3 +1,9 @@
+/* Bootstrap Style */
+.list-group-item {
+  padding: 4px !important;
+  border: none !important;
+}
+/* Fixed action btn */
 .fixed-button {
   color: #FFFFFF;
   border: none;
@@ -54,4 +60,8 @@
   animation-timing-function: ease-in-out;
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+}
+
+.small-font {
+  font-size: 14px;
 }

@@ -66,6 +66,9 @@ class Add extends Component {
                         + 3;
                       onDescChange(data.substring(s_i, data.indexOf('</p>')))
                     }}
+                    config = {
+                      { toolbar: [[]] }
+                    }
                   />
                 </div>
               </div>
