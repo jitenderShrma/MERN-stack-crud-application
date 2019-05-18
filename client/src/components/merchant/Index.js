@@ -84,7 +84,7 @@ class Index extends Component {
             <h3 className="text-center">Merchants List</h3>
             <hr></hr>
             <div className="row">
-              <div className="col col-sm-12">
+              <div className="col col-md-12 col-sm-12 m-auto">
                 <h6 className="text-center">Total Merchants: {merchants.length}</h6>
                 {/* <br></br> */}
                 <Search />
